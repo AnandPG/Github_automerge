@@ -20,6 +20,7 @@ jobs:
 
       - name: Create PR to Develop
         run:
+          git fetch
           git checkout develop
           git pull origin develop
           git checkout -b pr-from-release

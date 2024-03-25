@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.WORKFLOW_TOKEN }}
 
       - name: Create PR to Develop
-        run:
+        run: |
           git fetch --all
           git checkout develop
           git pull origin develop

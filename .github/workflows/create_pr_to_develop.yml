@@ -3,27 +3,26 @@ name: Create PR to Develop
 on:
   pull_request:
     types: [closed]
-permissions:
-  actions: write    
 
 jobs:
   create_pr_to_develop:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged && github.event.pull_request.base.ref == 'release'
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'release'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          # Fine-grained PAT with contents:write and workflows:write
-          # scopes
-          token: ${{ secrets.WORKFLOW_TOKEN }}
 
       - name: Create PR to Develop
         run: |
-          git fetch --all
-          git checkout develop
-          git pull origin develop
+          PR_TITLE="Merge changes from release into develop"
+          PR_BODY="This PR is automatically generated to merge changes from the release branch into develop."
           git checkout -b pr-from-release
-          git merge origin/feature2
           git push origin pr-from-release
-          gh pr create -t "sample title" -b "sample body"
+          curl \
+            -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"title":"'"$PR_TITLE"'","body":"'"$PR_BODY"'","head":"pr-from-release","base":"develop"}' \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls"
+          env:
+          GITHUB_REPOSITORY: ${{ github.repository }}

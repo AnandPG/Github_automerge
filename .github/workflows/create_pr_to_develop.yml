@@ -3,6 +3,8 @@ name: Create PR to Develop
 on:
   pull_request:
     types: [closed]
+permissions:
+  actions: write    
 
 jobs:
   create_pr_to_develop:
@@ -11,6 +13,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          # Fine-grained PAT with contents:write and workflows:write
+          # scopes
+          token: ${{ secrets.WORKFLOW_TOKEN }}
 
       - name: Create PR to Develop
         run: |

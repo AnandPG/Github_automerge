@@ -15,9 +15,9 @@ jobs:
       - name: Create PR to Develop
         run: |
           git fetch --all
+          git checkout release
+          git fetch origin
           git checkout develop
-          git pull origin develop
-          git checkout -b pr-from-release
-          git merge --no-ff ${{ github.event.pull_request.head.ref }}
-          git push origin pr-from-release
-          hub pull-request -m "Merge changes from release into develop" -b develop -h pr-from-release
+          git pull
+          git merge origin/release
+          git push origin develop

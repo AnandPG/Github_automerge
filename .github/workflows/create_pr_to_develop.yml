@@ -26,4 +26,5 @@ jobs:
           git checkout -b pr-from-release
           git merge origin/feature2
           git push origin pr-from-release
+          sudo apt-get install hub
           hub pull-request -m "Merge changes from release into develop" -b develop -h pr-from-release

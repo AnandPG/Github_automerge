@@ -10,13 +10,12 @@ jobs:
     if: github.event.pull_request.merged && github.event.pull_request.base.ref == 'release'
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: develop
       - name: Create PR to Develop
         run: |
           PR_TITLE="Merge changes from release into develop"
           PR_BODY="This PR is automatically generated to merge changes from the release branch into develop."
           git checkout -b pr-from-release
+          git merge --no-ff ${{ github.event.pull_request.head.ref }}
           git push origin pr-from-release
           curl \
             -X POST \

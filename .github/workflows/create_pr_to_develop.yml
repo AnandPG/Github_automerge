@@ -9,19 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged && github.event.pull_request.base.ref == 'release'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
         with:
-          node-version: "14"
-
-      - name: Install dependencies
-        run: npm install @octokit/rest
-
-      - name: Create PR to Develop
-        run: node create_pr.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          ref: develop
+      - name: Reset develop branch
+        run: |
+          git fetch origin release:release
+          git reset --hard test
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: master-promotion

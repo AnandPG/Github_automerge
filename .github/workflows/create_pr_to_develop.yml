@@ -24,5 +24,3 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"title":"'"$PR_TITLE"'","body":"'"$PR_BODY"'","head":"pr-from-release","base":"develop"}' \
             "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls"
-          env:
-          GITHUB_REPOSITORY: ${{ github.repository }}

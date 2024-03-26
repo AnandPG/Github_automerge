@@ -15,7 +15,7 @@ jobs:
       - name: Reset develop branch
         run: |
           git fetch origin release:release
-          git reset --hard testrelease
+          git reset --hard release
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:

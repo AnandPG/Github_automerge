@@ -16,6 +16,6 @@ jobs:
           commit-message: test
           title: test pr
           body: test pr
-          base: develop
+          base: release
           labels: auto pr
           token: ${{ secrets.GITHUB_TOKEN }} 

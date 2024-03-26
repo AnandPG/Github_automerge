@@ -10,12 +10,14 @@ jobs:
     if: github.event.pull_request.merged && github.event.pull_request.base.ref == 'release'
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: develop
+      - name: Reset develop branch
+        run: |
+          git fetch origin release:release
+          git reset --hard testrelease
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          commit-message: test
-          title: test pr
-          body: test pr
-          base: release
-          labels: auto pr
+          branch: master-promotion
           token: ${{ secrets.GITHUB_TOKEN }} 

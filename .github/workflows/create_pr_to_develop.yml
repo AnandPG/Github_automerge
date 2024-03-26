@@ -14,11 +14,11 @@ jobs:
         run: |
           echo "Pull request head ref: ${{ github.event.pull_request.head.ref }}"
           git branch -a  
-          git fetch -all
+          git fetch --all
           PR_TITLE="Merge changes from release into develop"
           PR_BODY="This PR is automatically generated to merge changes from the release branch into develop."
           git checkout -b pr-from-release
-          git merge --no-ff ${{ github.event.pull_request.head.ref }}
+          git merge --no-ff origin/${{ github.event.pull_request.head.ref }}
           git push origin pr-from-release
           curl \
             -X POST \

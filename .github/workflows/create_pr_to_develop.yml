@@ -18,4 +18,5 @@ jobs:
           body: test pr
           base: develop
           labels: auto pr
-          branch: release
+          branch: auto-pr-branch
+          token: ${{ secrets.GITHUB_TOKEN }} 
